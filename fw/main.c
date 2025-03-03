@@ -21,18 +21,18 @@
 #define ISP_MCLR_1 PC_ODR_bit.ODR5 = 1;
 #define ISP_MCLR_0 PC_ODR_bit.ODR5 = 0;
 #define ISP_MCLR_D_I PC_DDR_bit.DDR5 = 0;
-#define ISP_MCLR_D_0 PC_DDR_bit.DDR5 = 1;
+#define ISP_MCLR_D_O PC_DDR_bit.DDR5 = 1;
 
 #define ISP_DAT_1 PC_ODR_bit.ODR4 = 1;
 #define ISP_DAT_0 PC_ODR_bit.ODR4 = 0;
 #define ISP_DAT_V PC_IDR_bit.IDR4
 #define ISP_DAT_D_I PC_DDR_bit.DDR4 = 0;
-#define ISP_DAT_D_0 PC_DDR_bit.DDR4 = 1;
+#define ISP_DAT_D_O PC_DDR_bit.DDR4 = 1;
 
 #define ISP_CLK_1 PC_ODR_bit.ODR3 = 1;
 #define ISP_CLK_0 PC_ODR_bit.ODR3 = 0;
 #define ISP_CLK_D_I PC_DDR_bit.DDR3 = 0;
-#define ISP_CLK_D_0 PC_DDR_bit.DDR3 = 1;
+#define ISP_CLK_D_O PC_DDR_bit.DDR3 = 1;
 
 #define  ISP_CLK_DELAY 1
 
@@ -42,6 +42,26 @@ void _delay_ms(uint16_t ms) {
      while (ms--) {
          _delay_us(1000);
      }
+}
+
+//
+// switch to using UART interrupt
+// and entering to power saving mode
+//
+volatile uint8_t __uart_received = 0;
+volatile uint8_t __uart_data = 0;
+
+#pragma vector = UART1_R_RXNE_vector
+__interrupt void UART1_R_RXNE_IRQHandler(void) {
+  
+  //
+  // reading UART1_SR and then UART1_DR clears UART1_SR_OR_LHE bit  
+  // reading UART1_DR clears UART1_SR_RXNE bit
+  //
+  if (UART1_SR_RXNE == 1) { 
+    __uart_data = UART1_DR;
+    __uart_received = 1;
+  }
 }
 
 unsigned char rx_state_machine (unsigned char state, unsigned char rx_char);
@@ -102,8 +122,10 @@ void p18fk_isp_write_pgm (unsigned int * data, unsigned long addr, unsigned char
 void p18fj_isp_mass_erase (void);
 
 void usart_tx_b(uint8_t data);
-uint8_t usart_rx_rdy(void);
-uint8_t usart_rx_b(void);
+
+//uint8_t usart_rx_rdy(void);
+//uint8_t usart_rx_b(void);
+
 void usart_tx_s(uint8_t * data);
 void usart_tx_hexa_8b (uint8_t value);
 
@@ -119,6 +141,8 @@ unsigned long addr;
 void main( void )
 {
 
+    __disable_interrupt();
+    
     //
     // system clock
     //
@@ -169,23 +193,33 @@ void main( void )
     UART1_CR3_LBCL = 1;
     UART1_CR2_TEN = 1; // enable transmitter
     UART1_CR2_REN = 1; // enable receiver
+    
+    UART1_CR2_RIEN = 1; // enable UART receive interrupt
 
     // already done above
     // PC_CR1_C15 = 1; // make push-pull, default open-drain not working
     // PC_CR1_C14 = 1;
     // PC_CR1_C13 = 1;
     
-    ISP_CLK_D_0
-    ISP_DAT_D_0
+    ISP_CLK_D_O
+    ISP_DAT_D_O
+    //ISP_DAT_D_I
     ISP_DAT_0
     ISP_CLK_0
-    ISP_MCLR_D_0
+    ISP_MCLR_D_O
     ISP_MCLR_1
     rx_state = 0;
+    
+    __enable_interrupt();
+    
+    __wait_for_interrupt(); // go to power saving
 
   while (1) {
-    if (usart_rx_rdy()) {
-      rx = usart_rx_b();
+//    if (usart_rx_rdy()) {
+//      rx = usart_rx_b();
+    if (__uart_received) {
+      __uart_received = 0;
+      rx = __uart_data;
       rx_state = rx_state_machine (rx_state,rx);
       if (rx_state==3) {
           
@@ -201,6 +235,7 @@ void main( void )
                 exit_progmode();
                 usart_tx_b (0x82);
                 rx_state = 0;
+                __wait_for_interrupt(); // go to power saving
                 break;
                 
             case 0x03: // p16a_rst_pointer A
@@ -599,7 +634,7 @@ return out;
 void isp_send (unsigned int data, unsigned char n)
 {
 unsigned char i;
-ISP_DAT_D_0
+ISP_DAT_D_O
 //_delay_us(3*ISP_CLK_DELAY);
 for (i=0;i<n;i++)
   {
@@ -625,7 +660,7 @@ for (i=0;i<n;i++)
 void isp_send_24_msb (unsigned long data)
 {
 unsigned char i;
-ISP_DAT_D_0
+ISP_DAT_D_O
 //_delay_us(3*ISP_CLK_DELAY);
 for (i=0;i<23;i++)
   {
@@ -654,7 +689,7 @@ for (i=0;i<23;i++)
 void isp_send_8_msb (unsigned char data)
 {
 unsigned char i;
-ISP_DAT_D_0
+ISP_DAT_D_O
 //_delay_us(3*ISP_CLK_DELAY);
 for (i=0;i<8;i++)
   {
@@ -867,7 +902,7 @@ _delay_ms(5);
 void p_18_modfied_nop (unsigned char nop_long)
 {
 unsigned char i;
-ISP_DAT_D_0
+ISP_DAT_D_O
 ISP_DAT_0
 for (i=0;i<3;i++)
   {
@@ -951,6 +986,11 @@ _delay_ms(30);
 ISP_MCLR_0
 _delay_ms(30);
 ISP_MCLR_1
+//
+// TODO CLK and DAT to HiZ or out 0
+//
+ISP_DAT_D_I
+//ISP_DAT_0
 return 0;
 }
 
@@ -1084,7 +1124,7 @@ void usart_tx_s(uint8_t * data)
         usart_tx_b(*data++);
 } 
 
-
+/* this goes to interrupt
 uint8_t usart_rx_rdy(void)
 {
     //if (UCSR0A & _BV(RXC0))
@@ -1098,7 +1138,7 @@ uint8_t usart_rx_b(void)
 {
     return (uint8_t) UART1_DR;
 } 
-
+*/
 
 void usart_tx_hexa_8 (uint8_t value)
 {
