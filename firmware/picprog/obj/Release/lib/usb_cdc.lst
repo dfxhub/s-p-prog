@@ -1,0 +1,1007 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler 
+                                      3 ; Version 4.3.0 #14184 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module usb_cdc
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _UIF_BUS_RST
+                                     12 	.globl _UIF_DETECT
+                                     13 	.globl _UIF_TRANSFER
+                                     14 	.globl _UIF_SUSPEND
+                                     15 	.globl _UIF_HST_SOF
+                                     16 	.globl _UIF_FIFO_OV
+                                     17 	.globl _U_SIE_FREE
+                                     18 	.globl _U_TOG_OK
+                                     19 	.globl _U_IS_NAK
+                                     20 	.globl _ADC_CHAN0
+                                     21 	.globl _ADC_CHAN1
+                                     22 	.globl _CMP_CHAN
+                                     23 	.globl _ADC_START
+                                     24 	.globl _ADC_IF
+                                     25 	.globl _CMP_IF
+                                     26 	.globl _CMPO
+                                     27 	.globl _U1RI
+                                     28 	.globl _U1TI
+                                     29 	.globl _U1RB8
+                                     30 	.globl _U1TB8
+                                     31 	.globl _U1REN
+                                     32 	.globl _U1SMOD
+                                     33 	.globl _U1SM0
+                                     34 	.globl _S0_R_FIFO
+                                     35 	.globl _S0_T_FIFO
+                                     36 	.globl _S0_FREE
+                                     37 	.globl _S0_IF_BYTE
+                                     38 	.globl _S0_IF_FIRST
+                                     39 	.globl _S0_IF_OV
+                                     40 	.globl _S0_FST_ACT
+                                     41 	.globl _CP_RL2
+                                     42 	.globl _C_T2
+                                     43 	.globl _TR2
+                                     44 	.globl _EXEN2
+                                     45 	.globl _TCLK
+                                     46 	.globl _RCLK
+                                     47 	.globl _EXF2
+                                     48 	.globl _CAP1F
+                                     49 	.globl _TF2
+                                     50 	.globl _RI
+                                     51 	.globl _TI
+                                     52 	.globl _RB8
+                                     53 	.globl _TB8
+                                     54 	.globl _REN
+                                     55 	.globl _SM2
+                                     56 	.globl _SM1
+                                     57 	.globl _SM0
+                                     58 	.globl _IT0
+                                     59 	.globl _IE0
+                                     60 	.globl _IT1
+                                     61 	.globl _IE1
+                                     62 	.globl _TR0
+                                     63 	.globl _TF0
+                                     64 	.globl _TR1
+                                     65 	.globl _TF1
+                                     66 	.globl _RXD
+                                     67 	.globl _PWM1_
+                                     68 	.globl _TXD
+                                     69 	.globl _PWM2_
+                                     70 	.globl _AIN3
+                                     71 	.globl _VBUS1
+                                     72 	.globl _INT0
+                                     73 	.globl _TXD1_
+                                     74 	.globl _INT1
+                                     75 	.globl _T0
+                                     76 	.globl _RXD1_
+                                     77 	.globl _PWM2
+                                     78 	.globl _T1
+                                     79 	.globl _UDP
+                                     80 	.globl _UDM
+                                     81 	.globl _TIN0
+                                     82 	.globl _CAP1
+                                     83 	.globl _T2
+                                     84 	.globl _AIN0
+                                     85 	.globl _VBUS2
+                                     86 	.globl _TIN1
+                                     87 	.globl _CAP2
+                                     88 	.globl _T2EX
+                                     89 	.globl _RXD_
+                                     90 	.globl _TXD_
+                                     91 	.globl _AIN1
+                                     92 	.globl _UCC1
+                                     93 	.globl _TIN2
+                                     94 	.globl _SCS
+                                     95 	.globl _CAP1_
+                                     96 	.globl _T2_
+                                     97 	.globl _AIN2
+                                     98 	.globl _UCC2
+                                     99 	.globl _TIN3
+                                    100 	.globl _PWM1
+                                    101 	.globl _MOSI
+                                    102 	.globl _TIN4
+                                    103 	.globl _RXD1
+                                    104 	.globl _MISO
+                                    105 	.globl _TIN5
+                                    106 	.globl _TXD1
+                                    107 	.globl _SCK
+                                    108 	.globl _IE_SPI0
+                                    109 	.globl _IE_TKEY
+                                    110 	.globl _IE_USB
+                                    111 	.globl _IE_ADC
+                                    112 	.globl _IE_UART1
+                                    113 	.globl _IE_PWMX
+                                    114 	.globl _IE_GPIO
+                                    115 	.globl _IE_WDOG
+                                    116 	.globl _PX0
+                                    117 	.globl _PT0
+                                    118 	.globl _PX1
+                                    119 	.globl _PT1
+                                    120 	.globl _PS
+                                    121 	.globl _PT2
+                                    122 	.globl _PL_FLAG
+                                    123 	.globl _PH_FLAG
+                                    124 	.globl _EX0
+                                    125 	.globl _ET0
+                                    126 	.globl _EX1
+                                    127 	.globl _ET1
+                                    128 	.globl _ES
+                                    129 	.globl _ET2
+                                    130 	.globl _E_DIS
+                                    131 	.globl _EA
+                                    132 	.globl _P
+                                    133 	.globl _F1
+                                    134 	.globl _OV
+                                    135 	.globl _RS0
+                                    136 	.globl _RS1
+                                    137 	.globl _F0
+                                    138 	.globl _AC
+                                    139 	.globl _CY
+                                    140 	.globl _UEP1_DMA_H
+                                    141 	.globl _UEP1_DMA_L
+                                    142 	.globl _UEP1_DMA
+                                    143 	.globl _UEP0_DMA_H
+                                    144 	.globl _UEP0_DMA_L
+                                    145 	.globl _UEP0_DMA
+                                    146 	.globl _UEP2_3_MOD
+                                    147 	.globl _UEP4_1_MOD
+                                    148 	.globl _UEP3_DMA_H
+                                    149 	.globl _UEP3_DMA_L
+                                    150 	.globl _UEP3_DMA
+                                    151 	.globl _UEP2_DMA_H
+                                    152 	.globl _UEP2_DMA_L
+                                    153 	.globl _UEP2_DMA
+                                    154 	.globl _USB_DEV_AD
+                                    155 	.globl _USB_CTRL
+                                    156 	.globl _USB_INT_EN
+                                    157 	.globl _UEP4_T_LEN
+                                    158 	.globl _UEP4_CTRL
+                                    159 	.globl _UEP0_T_LEN
+                                    160 	.globl _UEP0_CTRL
+                                    161 	.globl _USB_RX_LEN
+                                    162 	.globl _USB_MIS_ST
+                                    163 	.globl _USB_INT_ST
+                                    164 	.globl _USB_INT_FG
+                                    165 	.globl _UEP3_T_LEN
+                                    166 	.globl _UEP3_CTRL
+                                    167 	.globl _UEP2_T_LEN
+                                    168 	.globl _UEP2_CTRL
+                                    169 	.globl _UEP1_T_LEN
+                                    170 	.globl _UEP1_CTRL
+                                    171 	.globl _UDEV_CTRL
+                                    172 	.globl _USB_C_CTRL
+                                    173 	.globl _TKEY_DATH
+                                    174 	.globl _TKEY_DATL
+                                    175 	.globl _TKEY_DAT
+                                    176 	.globl _TKEY_CTRL
+                                    177 	.globl _ADC_DATA
+                                    178 	.globl _ADC_CFG
+                                    179 	.globl _ADC_CTRL
+                                    180 	.globl _SBAUD1
+                                    181 	.globl _SBUF1
+                                    182 	.globl _SCON1
+                                    183 	.globl _SPI0_SETUP
+                                    184 	.globl _SPI0_CK_SE
+                                    185 	.globl _SPI0_CTRL
+                                    186 	.globl _SPI0_DATA
+                                    187 	.globl _SPI0_STAT
+                                    188 	.globl _PWM_CK_SE
+                                    189 	.globl _PWM_CTRL
+                                    190 	.globl _PWM_DATA1
+                                    191 	.globl _PWM_DATA2
+                                    192 	.globl _T2CAP1H
+                                    193 	.globl _T2CAP1L
+                                    194 	.globl _T2CAP1
+                                    195 	.globl _TH2
+                                    196 	.globl _TL2
+                                    197 	.globl _T2COUNT
+                                    198 	.globl _RCAP2H
+                                    199 	.globl _RCAP2L
+                                    200 	.globl _RCAP2
+                                    201 	.globl _T2MOD
+                                    202 	.globl _T2CON
+                                    203 	.globl _SBUF
+                                    204 	.globl _SCON
+                                    205 	.globl _TH1
+                                    206 	.globl _TH0
+                                    207 	.globl _TL1
+                                    208 	.globl _TL0
+                                    209 	.globl _TMOD
+                                    210 	.globl _TCON
+                                    211 	.globl _XBUS_AUX
+                                    212 	.globl _PIN_FUNC
+                                    213 	.globl _P3_DIR_PU
+                                    214 	.globl _P3_MOD_OC
+                                    215 	.globl _P3
+                                    216 	.globl _P2
+                                    217 	.globl _P1_DIR_PU
+                                    218 	.globl _P1_MOD_OC
+                                    219 	.globl _P1
+                                    220 	.globl _ROM_CTRL
+                                    221 	.globl _ROM_DATA_H
+                                    222 	.globl _ROM_DATA_L
+                                    223 	.globl _ROM_DATA
+                                    224 	.globl _ROM_ADDR_H
+                                    225 	.globl _ROM_ADDR_L
+                                    226 	.globl _ROM_ADDR
+                                    227 	.globl _GPIO_IE
+                                    228 	.globl _IP_EX
+                                    229 	.globl _IE_EX
+                                    230 	.globl _IP
+                                    231 	.globl _IE
+                                    232 	.globl _WDOG_COUNT
+                                    233 	.globl _RESET_KEEP
+                                    234 	.globl _WAKE_CTRL
+                                    235 	.globl _CLOCK_CFG
+                                    236 	.globl _PCON
+                                    237 	.globl _GLOBAL_CFG
+                                    238 	.globl _SAFE_MOD
+                                    239 	.globl _DPH
+                                    240 	.globl _DPL
+                                    241 	.globl _SP
+                                    242 	.globl _B
+                                    243 	.globl _ACC
+                                    244 	.globl _PSW
+                                    245 	.globl _CDC_writePointer
+                                    246 	.globl _CDC_readPointer
+                                    247 	.globl _CDC_readByteCount
+                                    248 	.globl _CDC_controlLineState
+                                    249 	.globl _CDC_lineCoding
+                                    250 	.globl _EP2_buffer
+                                    251 	.globl _EP1_buffer
+                                    252 	.globl _EP0_buffer
+                                    253 	.globl _CDC_writeBusyFlag
+                                    254 	.globl _CDC_flush
+                                    255 	.globl _CDC_write
+                                    256 	.globl _CDC_print
+                                    257 	.globl _CDC_println
+                                    258 	.globl _CDC_read
+                                    259 	.globl _CDC_EP_init
+                                    260 	.globl _CDC_control
+                                    261 	.globl _CDC_EP0_OUT
+                                    262 	.globl _CDC_EP2_IN
+                                    263 	.globl _CDC_EP2_OUT
+                                    264 ;--------------------------------------------------------
+                                    265 ; special function registers
+                                    266 ;--------------------------------------------------------
+                                    267 	.area RSEG    (ABS,DATA)
+      000000                        268 	.org 0x0000
+                           0000D0   269 _PSW	=	0x00d0
+                           0000E0   270 _ACC	=	0x00e0
+                           0000F0   271 _B	=	0x00f0
+                           000081   272 _SP	=	0x0081
+                           000082   273 _DPL	=	0x0082
+                           000083   274 _DPH	=	0x0083
+                           0000A1   275 _SAFE_MOD	=	0x00a1
+                           0000B1   276 _GLOBAL_CFG	=	0x00b1
+                           000087   277 _PCON	=	0x0087
+                           0000B9   278 _CLOCK_CFG	=	0x00b9
+                           0000A9   279 _WAKE_CTRL	=	0x00a9
+                           0000FE   280 _RESET_KEEP	=	0x00fe
+                           0000FF   281 _WDOG_COUNT	=	0x00ff
+                           0000A8   282 _IE	=	0x00a8
+                           0000B8   283 _IP	=	0x00b8
+                           0000E8   284 _IE_EX	=	0x00e8
+                           0000E9   285 _IP_EX	=	0x00e9
+                           0000C7   286 _GPIO_IE	=	0x00c7
+                           008584   287 _ROM_ADDR	=	0x8584
+                           000084   288 _ROM_ADDR_L	=	0x0084
+                           000085   289 _ROM_ADDR_H	=	0x0085
+                           008F8E   290 _ROM_DATA	=	0x8f8e
+                           00008E   291 _ROM_DATA_L	=	0x008e
+                           00008F   292 _ROM_DATA_H	=	0x008f
+                           000086   293 _ROM_CTRL	=	0x0086
+                           000090   294 _P1	=	0x0090
+                           000092   295 _P1_MOD_OC	=	0x0092
+                           000093   296 _P1_DIR_PU	=	0x0093
+                           0000A0   297 _P2	=	0x00a0
+                           0000B0   298 _P3	=	0x00b0
+                           000096   299 _P3_MOD_OC	=	0x0096
+                           000097   300 _P3_DIR_PU	=	0x0097
+                           0000C6   301 _PIN_FUNC	=	0x00c6
+                           0000A2   302 _XBUS_AUX	=	0x00a2
+                           000088   303 _TCON	=	0x0088
+                           000089   304 _TMOD	=	0x0089
+                           00008A   305 _TL0	=	0x008a
+                           00008B   306 _TL1	=	0x008b
+                           00008C   307 _TH0	=	0x008c
+                           00008D   308 _TH1	=	0x008d
+                           000098   309 _SCON	=	0x0098
+                           000099   310 _SBUF	=	0x0099
+                           0000C8   311 _T2CON	=	0x00c8
+                           0000C9   312 _T2MOD	=	0x00c9
+                           00CBCA   313 _RCAP2	=	0xcbca
+                           0000CA   314 _RCAP2L	=	0x00ca
+                           0000CB   315 _RCAP2H	=	0x00cb
+                           00CDCC   316 _T2COUNT	=	0xcdcc
+                           0000CC   317 _TL2	=	0x00cc
+                           0000CD   318 _TH2	=	0x00cd
+                           00CFCE   319 _T2CAP1	=	0xcfce
+                           0000CE   320 _T2CAP1L	=	0x00ce
+                           0000CF   321 _T2CAP1H	=	0x00cf
+                           00009B   322 _PWM_DATA2	=	0x009b
+                           00009C   323 _PWM_DATA1	=	0x009c
+                           00009D   324 _PWM_CTRL	=	0x009d
+                           00009E   325 _PWM_CK_SE	=	0x009e
+                           0000F8   326 _SPI0_STAT	=	0x00f8
+                           0000F9   327 _SPI0_DATA	=	0x00f9
+                           0000FA   328 _SPI0_CTRL	=	0x00fa
+                           0000FB   329 _SPI0_CK_SE	=	0x00fb
+                           0000FC   330 _SPI0_SETUP	=	0x00fc
+                           0000C0   331 _SCON1	=	0x00c0
+                           0000C1   332 _SBUF1	=	0x00c1
+                           0000C2   333 _SBAUD1	=	0x00c2
+                           000080   334 _ADC_CTRL	=	0x0080
+                           00009A   335 _ADC_CFG	=	0x009a
+                           00009F   336 _ADC_DATA	=	0x009f
+                           0000C3   337 _TKEY_CTRL	=	0x00c3
+                           00C5C4   338 _TKEY_DAT	=	0xc5c4
+                           0000C4   339 _TKEY_DATL	=	0x00c4
+                           0000C5   340 _TKEY_DATH	=	0x00c5
+                           000091   341 _USB_C_CTRL	=	0x0091
+                           0000D1   342 _UDEV_CTRL	=	0x00d1
+                           0000D2   343 _UEP1_CTRL	=	0x00d2
+                           0000D3   344 _UEP1_T_LEN	=	0x00d3
+                           0000D4   345 _UEP2_CTRL	=	0x00d4
+                           0000D5   346 _UEP2_T_LEN	=	0x00d5
+                           0000D6   347 _UEP3_CTRL	=	0x00d6
+                           0000D7   348 _UEP3_T_LEN	=	0x00d7
+                           0000D8   349 _USB_INT_FG	=	0x00d8
+                           0000D9   350 _USB_INT_ST	=	0x00d9
+                           0000DA   351 _USB_MIS_ST	=	0x00da
+                           0000DB   352 _USB_RX_LEN	=	0x00db
+                           0000DC   353 _UEP0_CTRL	=	0x00dc
+                           0000DD   354 _UEP0_T_LEN	=	0x00dd
+                           0000DE   355 _UEP4_CTRL	=	0x00de
+                           0000DF   356 _UEP4_T_LEN	=	0x00df
+                           0000E1   357 _USB_INT_EN	=	0x00e1
+                           0000E2   358 _USB_CTRL	=	0x00e2
+                           0000E3   359 _USB_DEV_AD	=	0x00e3
+                           00E5E4   360 _UEP2_DMA	=	0xe5e4
+                           0000E4   361 _UEP2_DMA_L	=	0x00e4
+                           0000E5   362 _UEP2_DMA_H	=	0x00e5
+                           00E7E6   363 _UEP3_DMA	=	0xe7e6
+                           0000E6   364 _UEP3_DMA_L	=	0x00e6
+                           0000E7   365 _UEP3_DMA_H	=	0x00e7
+                           0000EA   366 _UEP4_1_MOD	=	0x00ea
+                           0000EB   367 _UEP2_3_MOD	=	0x00eb
+                           00EDEC   368 _UEP0_DMA	=	0xedec
+                           0000EC   369 _UEP0_DMA_L	=	0x00ec
+                           0000ED   370 _UEP0_DMA_H	=	0x00ed
+                           00EFEE   371 _UEP1_DMA	=	0xefee
+                           0000EE   372 _UEP1_DMA_L	=	0x00ee
+                           0000EF   373 _UEP1_DMA_H	=	0x00ef
+                                    374 ;--------------------------------------------------------
+                                    375 ; special function bits
+                                    376 ;--------------------------------------------------------
+                                    377 	.area RSEG    (ABS,DATA)
+      000000                        378 	.org 0x0000
+                           0000D7   379 _CY	=	0x00d7
+                           0000D6   380 _AC	=	0x00d6
+                           0000D5   381 _F0	=	0x00d5
+                           0000D4   382 _RS1	=	0x00d4
+                           0000D3   383 _RS0	=	0x00d3
+                           0000D2   384 _OV	=	0x00d2
+                           0000D1   385 _F1	=	0x00d1
+                           0000D0   386 _P	=	0x00d0
+                           0000AF   387 _EA	=	0x00af
+                           0000AE   388 _E_DIS	=	0x00ae
+                           0000AD   389 _ET2	=	0x00ad
+                           0000AC   390 _ES	=	0x00ac
+                           0000AB   391 _ET1	=	0x00ab
+                           0000AA   392 _EX1	=	0x00aa
+                           0000A9   393 _ET0	=	0x00a9
+                           0000A8   394 _EX0	=	0x00a8
+                           0000BF   395 _PH_FLAG	=	0x00bf
+                           0000BE   396 _PL_FLAG	=	0x00be
+                           0000BD   397 _PT2	=	0x00bd
+                           0000BC   398 _PS	=	0x00bc
+                           0000BB   399 _PT1	=	0x00bb
+                           0000BA   400 _PX1	=	0x00ba
+                           0000B9   401 _PT0	=	0x00b9
+                           0000B8   402 _PX0	=	0x00b8
+                           0000EF   403 _IE_WDOG	=	0x00ef
+                           0000EE   404 _IE_GPIO	=	0x00ee
+                           0000ED   405 _IE_PWMX	=	0x00ed
+                           0000EC   406 _IE_UART1	=	0x00ec
+                           0000EB   407 _IE_ADC	=	0x00eb
+                           0000EA   408 _IE_USB	=	0x00ea
+                           0000E9   409 _IE_TKEY	=	0x00e9
+                           0000E8   410 _IE_SPI0	=	0x00e8
+                           000097   411 _SCK	=	0x0097
+                           000097   412 _TXD1	=	0x0097
+                           000097   413 _TIN5	=	0x0097
+                           000096   414 _MISO	=	0x0096
+                           000096   415 _RXD1	=	0x0096
+                           000096   416 _TIN4	=	0x0096
+                           000095   417 _MOSI	=	0x0095
+                           000095   418 _PWM1	=	0x0095
+                           000095   419 _TIN3	=	0x0095
+                           000095   420 _UCC2	=	0x0095
+                           000095   421 _AIN2	=	0x0095
+                           000094   422 _T2_	=	0x0094
+                           000094   423 _CAP1_	=	0x0094
+                           000094   424 _SCS	=	0x0094
+                           000094   425 _TIN2	=	0x0094
+                           000094   426 _UCC1	=	0x0094
+                           000094   427 _AIN1	=	0x0094
+                           000093   428 _TXD_	=	0x0093
+                           000092   429 _RXD_	=	0x0092
+                           000091   430 _T2EX	=	0x0091
+                           000091   431 _CAP2	=	0x0091
+                           000091   432 _TIN1	=	0x0091
+                           000091   433 _VBUS2	=	0x0091
+                           000091   434 _AIN0	=	0x0091
+                           000090   435 _T2	=	0x0090
+                           000090   436 _CAP1	=	0x0090
+                           000090   437 _TIN0	=	0x0090
+                           0000B7   438 _UDM	=	0x00b7
+                           0000B6   439 _UDP	=	0x00b6
+                           0000B5   440 _T1	=	0x00b5
+                           0000B4   441 _PWM2	=	0x00b4
+                           0000B4   442 _RXD1_	=	0x00b4
+                           0000B4   443 _T0	=	0x00b4
+                           0000B3   444 _INT1	=	0x00b3
+                           0000B2   445 _TXD1_	=	0x00b2
+                           0000B2   446 _INT0	=	0x00b2
+                           0000B2   447 _VBUS1	=	0x00b2
+                           0000B2   448 _AIN3	=	0x00b2
+                           0000B1   449 _PWM2_	=	0x00b1
+                           0000B1   450 _TXD	=	0x00b1
+                           0000B0   451 _PWM1_	=	0x00b0
+                           0000B0   452 _RXD	=	0x00b0
+                           00008F   453 _TF1	=	0x008f
+                           00008E   454 _TR1	=	0x008e
+                           00008D   455 _TF0	=	0x008d
+                           00008C   456 _TR0	=	0x008c
+                           00008B   457 _IE1	=	0x008b
+                           00008A   458 _IT1	=	0x008a
+                           000089   459 _IE0	=	0x0089
+                           000088   460 _IT0	=	0x0088
+                           00009F   461 _SM0	=	0x009f
+                           00009E   462 _SM1	=	0x009e
+                           00009D   463 _SM2	=	0x009d
+                           00009C   464 _REN	=	0x009c
+                           00009B   465 _TB8	=	0x009b
+                           00009A   466 _RB8	=	0x009a
+                           000099   467 _TI	=	0x0099
+                           000098   468 _RI	=	0x0098
+                           0000CF   469 _TF2	=	0x00cf
+                           0000CF   470 _CAP1F	=	0x00cf
+                           0000CE   471 _EXF2	=	0x00ce
+                           0000CD   472 _RCLK	=	0x00cd
+                           0000CC   473 _TCLK	=	0x00cc
+                           0000CB   474 _EXEN2	=	0x00cb
+                           0000CA   475 _TR2	=	0x00ca
+                           0000C9   476 _C_T2	=	0x00c9
+                           0000C8   477 _CP_RL2	=	0x00c8
+                           0000FF   478 _S0_FST_ACT	=	0x00ff
+                           0000FE   479 _S0_IF_OV	=	0x00fe
+                           0000FD   480 _S0_IF_FIRST	=	0x00fd
+                           0000FC   481 _S0_IF_BYTE	=	0x00fc
+                           0000FB   482 _S0_FREE	=	0x00fb
+                           0000FA   483 _S0_T_FIFO	=	0x00fa
+                           0000F8   484 _S0_R_FIFO	=	0x00f8
+                           0000C7   485 _U1SM0	=	0x00c7
+                           0000C5   486 _U1SMOD	=	0x00c5
+                           0000C4   487 _U1REN	=	0x00c4
+                           0000C3   488 _U1TB8	=	0x00c3
+                           0000C2   489 _U1RB8	=	0x00c2
+                           0000C1   490 _U1TI	=	0x00c1
+                           0000C0   491 _U1RI	=	0x00c0
+                           000087   492 _CMPO	=	0x0087
+                           000086   493 _CMP_IF	=	0x0086
+                           000085   494 _ADC_IF	=	0x0085
+                           000084   495 _ADC_START	=	0x0084
+                           000083   496 _CMP_CHAN	=	0x0083
+                           000081   497 _ADC_CHAN1	=	0x0081
+                           000080   498 _ADC_CHAN0	=	0x0080
+                           0000DF   499 _U_IS_NAK	=	0x00df
+                           0000DE   500 _U_TOG_OK	=	0x00de
+                           0000DD   501 _U_SIE_FREE	=	0x00dd
+                           0000DC   502 _UIF_FIFO_OV	=	0x00dc
+                           0000DB   503 _UIF_HST_SOF	=	0x00db
+                           0000DA   504 _UIF_SUSPEND	=	0x00da
+                           0000D9   505 _UIF_TRANSFER	=	0x00d9
+                           0000D8   506 _UIF_DETECT	=	0x00d8
+                           0000D8   507 _UIF_BUS_RST	=	0x00d8
+                                    508 ;--------------------------------------------------------
+                                    509 ; overlayable register banks
+                                    510 ;--------------------------------------------------------
+                                    511 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        512 	.ds 8
+                                    513 ;--------------------------------------------------------
+                                    514 ; overlayable bit register bank
+                                    515 ;--------------------------------------------------------
+                                    516 	.area BIT_BANK	(REL,OVR,DATA)
+      000000                        517 bits:
+      000000                        518 	.ds 1
+                           008000   519 	b0 = bits[0]
+                           008100   520 	b1 = bits[1]
+                           008200   521 	b2 = bits[2]
+                           008300   522 	b3 = bits[3]
+                           008400   523 	b4 = bits[4]
+                           008500   524 	b5 = bits[5]
+                           008600   525 	b6 = bits[6]
+                           008700   526 	b7 = bits[7]
+                                    527 ;--------------------------------------------------------
+                                    528 ; internal ram data
+                                    529 ;--------------------------------------------------------
+                                    530 	.area DSEG    (DATA)
+                                    531 ;--------------------------------------------------------
+                                    532 ; overlayable items in internal ram
+                                    533 ;--------------------------------------------------------
+                                    534 ;--------------------------------------------------------
+                                    535 ; indirectly addressable internal ram data
+                                    536 ;--------------------------------------------------------
+                                    537 	.area ISEG    (DATA)
+                                    538 ;--------------------------------------------------------
+                                    539 ; absolute internal ram data
+                                    540 ;--------------------------------------------------------
+                                    541 	.area IABS    (ABS,DATA)
+                                    542 	.area IABS    (ABS,DATA)
+                                    543 ;--------------------------------------------------------
+                                    544 ; bit data
+                                    545 ;--------------------------------------------------------
+                                    546 	.area BSEG    (BIT)
+      000000                        547 _CDC_writeBusyFlag::
+      000000                        548 	.ds 1
+                                    549 ;--------------------------------------------------------
+                                    550 ; paged external ram data
+                                    551 ;--------------------------------------------------------
+                                    552 	.area PSEG    (PAG,XDATA)
+                                    553 ;--------------------------------------------------------
+                                    554 ; uninitialized external ram data
+                                    555 ;--------------------------------------------------------
+                                    556 	.area XSEG    (XDATA)
+                           000000   557 _EP0_buffer	=	0x0000
+                           00000A   558 _EP1_buffer	=	0x000a
+                           000014   559 _EP2_buffer	=	0x0014
+                                    560 ;--------------------------------------------------------
+                                    561 ; absolute external ram data
+                                    562 ;--------------------------------------------------------
+                                    563 	.area XABS    (ABS,XDATA)
+                                    564 ;--------------------------------------------------------
+                                    565 ; initialized external ram data
+                                    566 ;--------------------------------------------------------
+                                    567 	.area XISEG   (XDATA)
+      000000                        568 _CDC_lineCoding::
+      000000                        569 	.ds 7
+      000007                        570 _CDC_controlLineState::
+      000007                        571 	.ds 1
+      000008                        572 _CDC_readByteCount::
+      000008                        573 	.ds 1
+      000009                        574 _CDC_readPointer::
+      000009                        575 	.ds 1
+      00000A                        576 _CDC_writePointer::
+      00000A                        577 	.ds 1
+                                    578 	.area HOME    (CODE)
+                                    579 	.area GSINIT0 (CODE)
+                                    580 	.area GSINIT1 (CODE)
+                                    581 	.area GSINIT2 (CODE)
+                                    582 	.area GSINIT3 (CODE)
+                                    583 	.area GSINIT4 (CODE)
+                                    584 	.area GSINIT5 (CODE)
+                                    585 	.area GSINIT  (CODE)
+                                    586 	.area GSFINAL (CODE)
+                                    587 	.area CSEG    (CODE)
+                                    588 ;--------------------------------------------------------
+                                    589 ; global & static initialisations
+                                    590 ;--------------------------------------------------------
+                                    591 	.area HOME    (CODE)
+                                    592 	.area GSINIT  (CODE)
+                                    593 	.area GSFINAL (CODE)
+                                    594 	.area GSINIT  (CODE)
+                                    595 ;	lib\usb_cdc.c:24: volatile __bit CDC_writeBusyFlag = 0;               // flag of whether upload pointer is busy
+                                    596 ;	assignBit
+      000000 C2*00            [12]  597 	clr	_CDC_writeBusyFlag
+                                    598 ;--------------------------------------------------------
+                                    599 ; Home
+                                    600 ;--------------------------------------------------------
+                                    601 	.area HOME    (CODE)
+                                    602 	.area HOME    (CODE)
+                                    603 ;--------------------------------------------------------
+                                    604 ; code
+                                    605 ;--------------------------------------------------------
+                                    606 	.area CSEG    (CODE)
+                                    607 ;------------------------------------------------------------
+                                    608 ;Allocation info for local variables in function 'CDC_flush'
+                                    609 ;------------------------------------------------------------
+                                    610 ;	lib\usb_cdc.c:37: void CDC_flush(void) {
+                                    611 ;	-----------------------------------------
+                                    612 ;	 function CDC_flush
+                                    613 ;	-----------------------------------------
+      000000                        614 _CDC_flush:
+                           000007   615 	ar7 = 0x07
+                           000006   616 	ar6 = 0x06
+                           000005   617 	ar5 = 0x05
+                           000004   618 	ar4 = 0x04
+                           000003   619 	ar3 = 0x03
+                           000002   620 	ar2 = 0x02
+                           000001   621 	ar1 = 0x01
+                           000000   622 	ar0 = 0x00
+                                    623 ;	lib\usb_cdc.c:38: if(!CDC_writeBusyFlag && CDC_writePointer) {    // not busy and buffer not empty?
+      000000 20*00 16         [24]  624 	jb	_CDC_writeBusyFlag,00104$
+      000003 90r00r0A         [24]  625 	mov	dptr,#_CDC_writePointer
+      000006 E0               [24]  626 	movx	a,@dptr
+      000007 60 10            [24]  627 	jz	00104$
+                                    628 ;	lib\usb_cdc.c:39: CDC_writeBusyFlag = 1;                        // busy for now
+                                    629 ;	assignBit
+      000009 D2*00            [12]  630 	setb	_CDC_writeBusyFlag
+                                    631 ;	lib\usb_cdc.c:40: UEP2_T_LEN = CDC_writePointer;                // number of bytes to upload
+      00000B 90r00r0A         [24]  632 	mov	dptr,#_CDC_writePointer
+      00000E E0               [24]  633 	movx	a,@dptr
+      00000F F5 D5            [12]  634 	mov	_UEP2_T_LEN,a
+                                    635 ;	lib\usb_cdc.c:41: UEP2_CTRL  = (UEP2_CTRL & ~MASK_UEP_T_RES)
+      000011 53 D4 FC         [24]  636 	anl	_UEP2_CTRL,#0xfc
+                                    637 ;	lib\usb_cdc.c:43: CDC_writePointer = 0;                         // reset write pointer
+      000014 90r00r0A         [24]  638 	mov	dptr,#_CDC_writePointer
+      000017 E4               [12]  639 	clr	a
+      000018 F0               [24]  640 	movx	@dptr,a
+      000019                        641 00104$:
+                                    642 ;	lib\usb_cdc.c:45: }
+      000019 22               [24]  643 	ret
+                                    644 ;------------------------------------------------------------
+                                    645 ;Allocation info for local variables in function 'CDC_write'
+                                    646 ;------------------------------------------------------------
+                                    647 ;c                         Allocated to registers r7 
+                                    648 ;------------------------------------------------------------
+                                    649 ;	lib\usb_cdc.c:48: void CDC_write(char c) {
+                                    650 ;	-----------------------------------------
+                                    651 ;	 function CDC_write
+                                    652 ;	-----------------------------------------
+      00001A                        653 _CDC_write:
+      00001A AF 82            [24]  654 	mov	r7,dpl
+                                    655 ;	lib\usb_cdc.c:49: while(CDC_writeBusyFlag);                       // wait for ready to write
+      00001C                        656 00101$:
+      00001C 20*00 FD         [24]  657 	jb	_CDC_writeBusyFlag,00101$
+                                    658 ;	lib\usb_cdc.c:50: EP2_buffer[64 + CDC_writePointer++] = c;        // write character to buffer
+      00001F 90r00r0A         [24]  659 	mov	dptr,#_CDC_writePointer
+      000022 E0               [24]  660 	movx	a,@dptr
+      000023 FE               [12]  661 	mov	r6,a
+      000024 04               [12]  662 	inc	a
+      000025 F0               [24]  663 	movx	@dptr,a
+      000026 7D 00            [12]  664 	mov	r5,#0x00
+      000028 74 40            [12]  665 	mov	a,#0x40
+      00002A 2E               [12]  666 	add	a,r6
+      00002B FE               [12]  667 	mov	r6,a
+      00002C E4               [12]  668 	clr	a
+      00002D 3D               [12]  669 	addc	a,r5
+      00002E FD               [12]  670 	mov	r5,a
+      00002F EE               [12]  671 	mov	a,r6
+      000030 24 14            [12]  672 	add	a,#_EP2_buffer
+      000032 F5 82            [12]  673 	mov	dpl,a
+      000034 ED               [12]  674 	mov	a,r5
+      000035 34 00            [12]  675 	addc	a,#(_EP2_buffer >> 8)
+      000037 F5 83            [12]  676 	mov	dph,a
+      000039 EF               [12]  677 	mov	a,r7
+      00003A F0               [24]  678 	movx	@dptr,a
+                                    679 ;	lib\usb_cdc.c:51: if(CDC_writePointer == EP2_SIZE) CDC_flush();   // flush if buffer full
+      00003B 90r00r0A         [24]  680 	mov	dptr,#_CDC_writePointer
+      00003E E0               [24]  681 	movx	a,@dptr
+      00003F FF               [12]  682 	mov	r7,a
+      000040 BF 40 03         [24]  683 	cjne	r7,#0x40,00106$
+                                    684 ;	lib\usb_cdc.c:52: }
+      000043 02r00r00         [24]  685 	ljmp	_CDC_flush
+      000046                        686 00106$:
+      000046 22               [24]  687 	ret
+                                    688 ;------------------------------------------------------------
+                                    689 ;Allocation info for local variables in function 'CDC_print'
+                                    690 ;------------------------------------------------------------
+                                    691 ;str                       Allocated to registers 
+                                    692 ;------------------------------------------------------------
+                                    693 ;	lib\usb_cdc.c:55: void CDC_print(char* str) {
+                                    694 ;	-----------------------------------------
+                                    695 ;	 function CDC_print
+                                    696 ;	-----------------------------------------
+      000047                        697 _CDC_print:
+      000047 AD 82            [24]  698 	mov	r5,dpl
+      000049 AE 83            [24]  699 	mov	r6,dph
+      00004B AF F0            [24]  700 	mov	r7,b
+                                    701 ;	lib\usb_cdc.c:56: while(*str) CDC_write(*str++);                  // write each char of string
+      00004D                        702 00101$:
+      00004D 8D 82            [24]  703 	mov	dpl,r5
+      00004F 8E 83            [24]  704 	mov	dph,r6
+      000051 8F F0            [24]  705 	mov	b,r7
+      000053 12r00r00         [24]  706 	lcall	__gptrget
+      000056 FC               [12]  707 	mov	r4,a
+      000057 60 18            [24]  708 	jz	00104$
+      000059 0D               [12]  709 	inc	r5
+      00005A BD 00 01         [24]  710 	cjne	r5,#0x00,00116$
+      00005D 0E               [12]  711 	inc	r6
+      00005E                        712 00116$:
+      00005E 8C 82            [24]  713 	mov	dpl,r4
+      000060 C0 07            [24]  714 	push	ar7
+      000062 C0 06            [24]  715 	push	ar6
+      000064 C0 05            [24]  716 	push	ar5
+      000066 12r00r1A         [24]  717 	lcall	_CDC_write
+      000069 D0 05            [24]  718 	pop	ar5
+      00006B D0 06            [24]  719 	pop	ar6
+      00006D D0 07            [24]  720 	pop	ar7
+      00006F 80 DC            [24]  721 	sjmp	00101$
+      000071                        722 00104$:
+                                    723 ;	lib\usb_cdc.c:57: }
+      000071 22               [24]  724 	ret
+                                    725 ;------------------------------------------------------------
+                                    726 ;Allocation info for local variables in function 'CDC_println'
+                                    727 ;------------------------------------------------------------
+                                    728 ;str                       Allocated to registers r5 r6 r7 
+                                    729 ;------------------------------------------------------------
+                                    730 ;	lib\usb_cdc.c:60: void CDC_println(char* str) {
+                                    731 ;	-----------------------------------------
+                                    732 ;	 function CDC_println
+                                    733 ;	-----------------------------------------
+      000072                        734 _CDC_println:
+                                    735 ;	lib\usb_cdc.c:61: CDC_print(str);                                 // write string
+      000072 12r00r47         [24]  736 	lcall	_CDC_print
+                                    737 ;	lib\usb_cdc.c:62: CDC_write('\n');                                // write new line
+      000075 75 82 0A         [24]  738 	mov	dpl,#0x0a
+      000078 12r00r1A         [24]  739 	lcall	_CDC_write
+                                    740 ;	lib\usb_cdc.c:63: CDC_flush();                                    // flush OUT buffer
+                                    741 ;	lib\usb_cdc.c:64: }
+      00007B 02r00r00         [24]  742 	ljmp	_CDC_flush
+                                    743 ;------------------------------------------------------------
+                                    744 ;Allocation info for local variables in function 'CDC_read'
+                                    745 ;------------------------------------------------------------
+                                    746 ;data                      Allocated to registers r7 
+                                    747 ;------------------------------------------------------------
+                                    748 ;	lib\usb_cdc.c:67: char CDC_read(void) {
+                                    749 ;	-----------------------------------------
+                                    750 ;	 function CDC_read
+                                    751 ;	-----------------------------------------
+      00007E                        752 _CDC_read:
+                                    753 ;	lib\usb_cdc.c:69: while(!CDC_readByteCount);                      // wait for data
+      00007E                        754 00101$:
+      00007E 90r00r08         [24]  755 	mov	dptr,#_CDC_readByteCount
+      000081 E0               [24]  756 	movx	a,@dptr
+      000082 60 FA            [24]  757 	jz	00101$
+                                    758 ;	lib\usb_cdc.c:70: data = EP2_buffer[CDC_readPointer++];           // get character
+      000084 90r00r09         [24]  759 	mov	dptr,#_CDC_readPointer
+      000087 E0               [24]  760 	movx	a,@dptr
+      000088 FF               [12]  761 	mov	r7,a
+      000089 04               [12]  762 	inc	a
+      00008A F0               [24]  763 	movx	@dptr,a
+      00008B EF               [12]  764 	mov	a,r7
+      00008C 24 14            [12]  765 	add	a,#_EP2_buffer
+      00008E F5 82            [12]  766 	mov	dpl,a
+      000090 E4               [12]  767 	clr	a
+      000091 34 00            [12]  768 	addc	a,#(_EP2_buffer >> 8)
+      000093 F5 83            [12]  769 	mov	dph,a
+      000095 E0               [24]  770 	movx	a,@dptr
+      000096 FF               [12]  771 	mov	r7,a
+                                    772 ;	lib\usb_cdc.c:71: if(--CDC_readByteCount == 0)                    // dec number of bytes in buffer
+      000097 90r00r08         [24]  773 	mov	dptr,#_CDC_readByteCount
+      00009A E0               [24]  774 	movx	a,@dptr
+      00009B 14               [12]  775 	dec	a
+      00009C FE               [12]  776 	mov	r6,a
+      00009D F0               [24]  777 	movx	@dptr,a
+      00009E EE               [12]  778 	mov	a,r6
+      00009F 70 03            [24]  779 	jnz	00105$
+                                    780 ;	lib\usb_cdc.c:72: UEP2_CTRL = (UEP2_CTRL & ~MASK_UEP_R_RES)
+      0000A1 53 D4 F3         [24]  781 	anl	_UEP2_CTRL,#0xf3
+      0000A4                        782 00105$:
+                                    783 ;	lib\usb_cdc.c:74: return data;
+      0000A4 8F 82            [24]  784 	mov	dpl,r7
+                                    785 ;	lib\usb_cdc.c:75: }
+      0000A6 22               [24]  786 	ret
+                                    787 ;------------------------------------------------------------
+                                    788 ;Allocation info for local variables in function 'CDC_EP_init'
+                                    789 ;------------------------------------------------------------
+                                    790 ;	lib\usb_cdc.c:82: void CDC_EP_init(void) {
+                                    791 ;	-----------------------------------------
+                                    792 ;	 function CDC_EP_init
+                                    793 ;	-----------------------------------------
+      0000A7                        794 _CDC_EP_init:
+                                    795 ;	lib\usb_cdc.c:83: UEP1_DMA    = (uint16_t)EP1_buffer;             // EP1 data transfer address
+      0000A7 7E 0A            [12]  796 	mov	r6,#_EP1_buffer
+      0000A9 7F 00            [12]  797 	mov	r7,#(_EP1_buffer >> 8)
+      0000AB 8E EE            [24]  798 	mov	((_UEP1_DMA >> 0) & 0xFF),r6
+      0000AD 8F EF            [24]  799 	mov	((_UEP1_DMA >> 8) & 0xFF),r7
+                                    800 ;	lib\usb_cdc.c:84: UEP2_DMA    = (uint16_t)EP2_buffer;             // EP2 data transfer address
+      0000AF 7E 14            [12]  801 	mov	r6,#_EP2_buffer
+      0000B1 7F 00            [12]  802 	mov	r7,#(_EP2_buffer >> 8)
+      0000B3 8E E4            [24]  803 	mov	((_UEP2_DMA >> 0) & 0xFF),r6
+      0000B5 8F E5            [24]  804 	mov	((_UEP2_DMA >> 8) & 0xFF),r7
+                                    805 ;	lib\usb_cdc.c:86: | UEP_T_RES_NAK;                    // EP1 IN transaction returns NAK
+      0000B7 75 D2 12         [24]  806 	mov	_UEP1_CTRL,#0x12
+                                    807 ;	lib\usb_cdc.c:89: | UEP_R_RES_ACK;                    // EP2 OUT transaction returns ACK
+      0000BA 75 D4 12         [24]  808 	mov	_UEP2_CTRL,#0x12
+                                    809 ;	lib\usb_cdc.c:90: UEP2_3_MOD  = bUEP2_RX_EN | bUEP2_TX_EN;        // EP2 double buffer (0x0C)
+      0000BD 75 EB 0C         [24]  810 	mov	_UEP2_3_MOD,#0x0c
+                                    811 ;	lib\usb_cdc.c:91: UEP4_1_MOD  = bUEP1_TX_EN;                      // EP1 TX enable (0x40)
+      0000C0 75 EA 40         [24]  812 	mov	_UEP4_1_MOD,#0x40
+                                    813 ;	lib\usb_cdc.c:92: UEP1_T_LEN  = 0;                                // EP1 nothing to send
+      0000C3 75 D3 00         [24]  814 	mov	_UEP1_T_LEN,#0x00
+                                    815 ;	lib\usb_cdc.c:93: UEP2_T_LEN  = 0;                                // EP2 nothing to send
+      0000C6 75 D5 00         [24]  816 	mov	_UEP2_T_LEN,#0x00
+                                    817 ;	lib\usb_cdc.c:94: CDC_readByteCount = 0;                          // reset received bytes counter
+      0000C9 90r00r08         [24]  818 	mov	dptr,#_CDC_readByteCount
+      0000CC E4               [12]  819 	clr	a
+      0000CD F0               [24]  820 	movx	@dptr,a
+                                    821 ;	lib\usb_cdc.c:95: CDC_writeBusyFlag = 0;                          // reset write busy flag
+                                    822 ;	assignBit
+      0000CE C2*00            [12]  823 	clr	_CDC_writeBusyFlag
+                                    824 ;	lib\usb_cdc.c:96: }
+      0000D0 22               [24]  825 	ret
+                                    826 ;------------------------------------------------------------
+                                    827 ;Allocation info for local variables in function 'CDC_control'
+                                    828 ;------------------------------------------------------------
+                                    829 ;i                         Allocated to registers r7 
+                                    830 ;------------------------------------------------------------
+                                    831 ;	lib\usb_cdc.c:99: uint8_t CDC_control(void) {
+                                    832 ;	-----------------------------------------
+                                    833 ;	 function CDC_control
+                                    834 ;	-----------------------------------------
+      0000D1                        835 _CDC_control:
+                                    836 ;	lib\usb_cdc.c:101: switch(USB_SetupReq) {
+      0000D1 AF*00            [24]  837 	mov	r7,_USB_SetupReq
+      0000D3 BF 20 02         [24]  838 	cjne	r7,#0x20,00132$
+      0000D6 80 36            [24]  839 	sjmp	00104$
+      0000D8                        840 00132$:
+      0000D8 BF 21 02         [24]  841 	cjne	r7,#0x21,00133$
+      0000DB 80 05            [24]  842 	sjmp	00114$
+      0000DD                        843 00133$:
+                                    844 ;	lib\usb_cdc.c:103: for(i=0; i<sizeof(CDC_lineCoding); i++)
+      0000DD BF 22 32         [24]  845 	cjne	r7,#0x22,00105$
+      0000E0 80 20            [24]  846 	sjmp	00103$
+      0000E2                        847 00114$:
+      0000E2 7F 00            [12]  848 	mov	r7,#0x00
+      0000E4                        849 00107$:
+                                    850 ;	lib\usb_cdc.c:104: EP0_buffer[i] = ((uint8_t*)&CDC_lineCoding)[i]; // transmit line coding to host
+      0000E4 8F 05            [24]  851 	mov	ar5,r7
+      0000E6 7E 00            [12]  852 	mov	r6,#(_EP0_buffer >> 8)
+      0000E8 EF               [12]  853 	mov	a,r7
+      0000E9 24r00            [12]  854 	add	a,#_CDC_lineCoding
+      0000EB F5 82            [12]  855 	mov	dpl,a
+      0000ED E4               [12]  856 	clr	a
+      0000EE 34s00            [12]  857 	addc	a,#(_CDC_lineCoding >> 8)
+      0000F0 F5 83            [12]  858 	mov	dph,a
+      0000F2 E0               [24]  859 	movx	a,@dptr
+      0000F3 8D 82            [24]  860 	mov	dpl,r5
+      0000F5 8E 83            [24]  861 	mov	dph,r6
+      0000F7 F0               [24]  862 	movx	@dptr,a
+                                    863 ;	lib\usb_cdc.c:103: for(i=0; i<sizeof(CDC_lineCoding); i++)
+      0000F8 0F               [12]  864 	inc	r7
+      0000F9 BF 07 00         [24]  865 	cjne	r7,#0x07,00135$
+      0000FC                        866 00135$:
+      0000FC 40 E6            [24]  867 	jc	00107$
+                                    868 ;	lib\usb_cdc.c:105: return sizeof(CDC_lineCoding);
+      0000FE 75 82 07         [24]  869 	mov	dpl,#0x07
+                                    870 ;	lib\usb_cdc.c:106: case SET_CONTROL_LINE_STATE:                  // 0x22  generates RS-232/V.24 style control signals
+      000101 22               [24]  871 	ret
+      000102                        872 00103$:
+                                    873 ;	lib\usb_cdc.c:107: CDC_controlLineState = EP0_buffer[2];       // read control line state
+      000102 90 00 02         [24]  874 	mov	dptr,#(_EP0_buffer + 0x0002)
+      000105 E0               [24]  875 	movx	a,@dptr
+      000106 90r00r07         [24]  876 	mov	dptr,#_CDC_controlLineState
+      000109 F0               [24]  877 	movx	@dptr,a
+                                    878 ;	lib\usb_cdc.c:108: return 0;
+      00010A 75 82 00         [24]  879 	mov	dpl,#0x00
+                                    880 ;	lib\usb_cdc.c:109: case SET_LINE_CODING:                         // 0x20  Configure
+      00010D 22               [24]  881 	ret
+      00010E                        882 00104$:
+                                    883 ;	lib\usb_cdc.c:110: return 0;            
+      00010E 75 82 00         [24]  884 	mov	dpl,#0x00
+                                    885 ;	lib\usb_cdc.c:111: default:
+      000111 22               [24]  886 	ret
+      000112                        887 00105$:
+                                    888 ;	lib\usb_cdc.c:112: return 0xff;                                // command not supported
+      000112 75 82 FF         [24]  889 	mov	dpl,#0xff
+                                    890 ;	lib\usb_cdc.c:113: }
+                                    891 ;	lib\usb_cdc.c:114: }
+      000115 22               [24]  892 	ret
+                                    893 ;------------------------------------------------------------
+                                    894 ;Allocation info for local variables in function 'CDC_EP0_OUT'
+                                    895 ;------------------------------------------------------------
+                                    896 ;i                         Allocated to registers r7 
+                                    897 ;------------------------------------------------------------
+                                    898 ;	lib\usb_cdc.c:117: void CDC_EP0_OUT(void) {
+                                    899 ;	-----------------------------------------
+                                    900 ;	 function CDC_EP0_OUT
+                                    901 ;	-----------------------------------------
+      000116                        902 _CDC_EP0_OUT:
+                                    903 ;	lib\usb_cdc.c:119: if(USB_SetupReq == SET_LINE_CODING) {           // set line coding
+      000116 74 20            [12]  904 	mov	a,#0x20
+      000118 B5*00 2D         [24]  905 	cjne	a,_USB_SetupReq,00103$
+                                    906 ;	lib\usb_cdc.c:120: for(i=0; i<((sizeof(CDC_lineCoding)<=USB_RX_LEN)?sizeof(CDC_lineCoding):USB_RX_LEN); i++)
+      00011B 7F 00            [12]  907 	mov	r7,#0x00
+      00011D                        908 00105$:
+      00011D C3               [12]  909 	clr	c
+      00011E E5 DB            [12]  910 	mov	a,_USB_RX_LEN
+      000120 94 07            [12]  911 	subb	a,#0x07
+      000122 92*00            [24]  912 	mov	b0,c
+      000124 40 04            [24]  913 	jc	00109$
+      000126 7E 07            [12]  914 	mov	r6,#0x07
+      000128 80 02            [24]  915 	sjmp	00110$
+      00012A                        916 00109$:
+      00012A AE DB            [24]  917 	mov	r6,_USB_RX_LEN
+      00012C                        918 00110$:
+      00012C C3               [12]  919 	clr	c
+      00012D EF               [12]  920 	mov	a,r7
+      00012E 9E               [12]  921 	subb	a,r6
+      00012F 50 17            [24]  922 	jnc	00103$
+                                    923 ;	lib\usb_cdc.c:121: ((uint8_t*)&CDC_lineCoding)[i] = EP0_buffer[i];      // receive line coding from host
+      000131 EF               [12]  924 	mov	a,r7
+      000132 24r00            [12]  925 	add	a,#_CDC_lineCoding
+      000134 FD               [12]  926 	mov	r5,a
+      000135 E4               [12]  927 	clr	a
+      000136 34s00            [12]  928 	addc	a,#(_CDC_lineCoding >> 8)
+      000138 FE               [12]  929 	mov	r6,a
+      000139 8F 82            [24]  930 	mov	dpl,r7
+      00013B 75 83 00         [24]  931 	mov	dph,#(_EP0_buffer >> 8)
+      00013E E0               [24]  932 	movx	a,@dptr
+      00013F FC               [12]  933 	mov	r4,a
+      000140 8D 82            [24]  934 	mov	dpl,r5
+      000142 8E 83            [24]  935 	mov	dph,r6
+      000144 F0               [24]  936 	movx	@dptr,a
+                                    937 ;	lib\usb_cdc.c:120: for(i=0; i<((sizeof(CDC_lineCoding)<=USB_RX_LEN)?sizeof(CDC_lineCoding):USB_RX_LEN); i++)
+      000145 0F               [12]  938 	inc	r7
+      000146 80 D5            [24]  939 	sjmp	00105$
+      000148                        940 00103$:
+                                    941 ;	lib\usb_cdc.c:123: UEP0_CTRL = bUEP_T_TOG | UEP_T_RES_ACK | UEP_R_RES_ACK;
+      000148 75 DC 40         [24]  942 	mov	_UEP0_CTRL,#0x40
+                                    943 ;	lib\usb_cdc.c:124: }
+      00014B 22               [24]  944 	ret
+                                    945 ;------------------------------------------------------------
+                                    946 ;Allocation info for local variables in function 'CDC_EP2_IN'
+                                    947 ;------------------------------------------------------------
+                                    948 ;	lib\usb_cdc.c:130: void CDC_EP2_IN(void) {
+                                    949 ;	-----------------------------------------
+                                    950 ;	 function CDC_EP2_IN
+                                    951 ;	-----------------------------------------
+      00014C                        952 _CDC_EP2_IN:
+                                    953 ;	lib\usb_cdc.c:131: UEP2_CTRL  = (UEP2_CTRL & ~MASK_UEP_T_RES)
+      00014C 74 FC            [12]  954 	mov	a,#0xfc
+      00014E 55 D4            [12]  955 	anl	a,_UEP2_CTRL
+      000150 44 02            [12]  956 	orl	a,#0x02
+      000152 F5 D4            [12]  957 	mov	_UEP2_CTRL,a
+                                    958 ;	lib\usb_cdc.c:133: CDC_writeBusyFlag = 0;                          // clear busy flag
+                                    959 ;	assignBit
+      000154 C2*00            [12]  960 	clr	_CDC_writeBusyFlag
+                                    961 ;	lib\usb_cdc.c:134: }
+      000156 22               [24]  962 	ret
+                                    963 ;------------------------------------------------------------
+                                    964 ;Allocation info for local variables in function 'CDC_EP2_OUT'
+                                    965 ;------------------------------------------------------------
+                                    966 ;	lib\usb_cdc.c:137: void CDC_EP2_OUT(void) {
+                                    967 ;	-----------------------------------------
+                                    968 ;	 function CDC_EP2_OUT
+                                    969 ;	-----------------------------------------
+      000157                        970 _CDC_EP2_OUT:
+                                    971 ;	lib\usb_cdc.c:138: if(U_TOG_OK && USB_RX_LEN) {                    // received synchronized packet?
+      000157 30 DE 17         [24]  972 	jnb	_U_TOG_OK,00104$
+      00015A E5 DB            [12]  973 	mov	a,_USB_RX_LEN
+      00015C 60 13            [24]  974 	jz	00104$
+                                    975 ;	lib\usb_cdc.c:139: UEP2_CTRL = (UEP2_CTRL & ~MASK_UEP_R_RES)
+      00015E 74 F3            [12]  976 	mov	a,#0xf3
+      000160 55 D4            [12]  977 	anl	a,_UEP2_CTRL
+      000162 44 08            [12]  978 	orl	a,#0x08
+      000164 F5 D4            [12]  979 	mov	_UEP2_CTRL,a
+                                    980 ;	lib\usb_cdc.c:141: CDC_readByteCount = USB_RX_LEN;               // set number of received data bytes
+      000166 90r00r08         [24]  981 	mov	dptr,#_CDC_readByteCount
+      000169 E5 DB            [12]  982 	mov	a,_USB_RX_LEN
+      00016B F0               [24]  983 	movx	@dptr,a
+                                    984 ;	lib\usb_cdc.c:142: CDC_readPointer   = 0;                        // reset read pointer for fetching
+      00016C 90r00r09         [24]  985 	mov	dptr,#_CDC_readPointer
+      00016F E4               [12]  986 	clr	a
+      000170 F0               [24]  987 	movx	@dptr,a
+      000171                        988 00104$:
+                                    989 ;	lib\usb_cdc.c:144: }
+      000171 22               [24]  990 	ret
+                                    991 	.area CSEG    (CODE)
+                                    992 	.area CONST   (CODE)
+                                    993 	.area XINIT   (CODE)
+      000000                        994 __xinit__CDC_lineCoding:
+      000000 00 C2 01 00            995 	.byte #0x00, #0xc2, #0x01, #0x00	; 115200
+      000004 00                     996 	.db #0x00	; 0
+      000005 00                     997 	.db #0x00	; 0
+      000006 08                     998 	.db #0x08	; 8
+      000007                        999 __xinit__CDC_controlLineState:
+      000007 00                    1000 	.db #0x00	; 0
+      000008                       1001 __xinit__CDC_readByteCount:
+      000008 00                    1002 	.db #0x00	; 0
+      000009                       1003 __xinit__CDC_readPointer:
+      000009 00                    1004 	.db #0x00	; 0
+      00000A                       1005 __xinit__CDC_writePointer:
+      00000A 00                    1006 	.db #0x00	; 0
+                                   1007 	.area CABS    (ABS,CODE)

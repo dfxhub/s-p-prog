@@ -1,0 +1,129 @@
+# depslib dependency file v1.0
+1741548706 source:g:\wch\552\552\pp\pp3.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	"pp_progtools.h"
+	<termios.h>
+	<windows.h>
+
+1741548706 g:\wch\552\552\pp\pp_globals.h
+
+1741548706 g:\wch\552\552\pp\pp_utils.h
+
+1741548706 g:\wch\552\552\pp\pp_serial.h
+
+1741548706 g:\wch\552\552\pp\pp_progtools.h
+
+1742563694 source:g:\wch\552\552\pp\pp_progtools.c
+	<stdio.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	"pp_progtools.h"
+
+1742566508 source:g:\wch\552\552\pp\pp_serial.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	<termios.h>
+	<windows.h>
+	<winbase.h>
+
+1742548118 source:g:\wch\552\552\pp\pp_utils.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	<termios.h>
+	<windows.h>
+	"pp_globals.h"
+	"pp_utils.h"
+
+1742720807 source:c:\embed\projects\microchip\pp\pp3.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	"pp_progtools.h"
+	<termios.h>
+	<windows.h>
+
+1742719034 c:\embed\projects\microchip\pp\pp_globals.h
+
+1741548706 c:\embed\projects\microchip\pp\pp_utils.h
+
+1742724202 c:\embed\projects\microchip\pp\pp_serial.h
+
+1742726682 c:\embed\projects\microchip\pp\pp_progtools.h
+
+1742721398 source:c:\embed\projects\microchip\pp\pp_progtools.c
+	<stdio.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	"pp_progtools.h"
+
+1742724202 source:c:\embed\projects\microchip\pp\pp_serial.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	"pp_globals.h"
+	"pp_utils.h"
+	"pp_serial.h"
+	<termios.h>
+	<windows.h>
+	<winbase.h>
+
+1742719311 source:c:\embed\projects\microchip\pp\pp_utils.c
+	<stdlib.h>
+	<fcntl.h>
+	<stdarg.h>
+	<ctype.h>
+	<stdio.h>
+	<unistd.h>
+	<time.h>
+	<sys/time.h>
+	<string.h>
+	<termios.h>
+	<windows.h>
+	"pp_globals.h"
+	"pp_utils.h"
+

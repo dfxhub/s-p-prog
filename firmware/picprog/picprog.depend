@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1741804304 source:c:\embed\projects\wch\552\picprog\lib\delay.c
+	"delay.h"
+
+1741804304 source:c:\embed\projects\wch\552\picprog\lib\usb_cdc.c
+	"usb_cdc.h"
+
+1741804304 source:c:\embed\projects\wch\552\picprog\lib\usb_descr.c
+	"usb_descr.h"
+
+1741804304 source:c:\embed\projects\wch\552\picprog\lib\usb_handler.c
+	"usb_handler.h"
+
+1742672385 source:c:\embed\projects\wch\552\picprog\isp.c
+	"delay.h"
+	"gpio.h"
+	"usb_cdc.h"
+	"isp.h"
+
+1742673164 c:\embed\projects\wch\552\picprog\isp.h
+
+1742570841 source:c:\embed\projects\wch\552\picprog\main.c
+	"system.h"
+	"delay.h"
+	"gpio.h"
+	"usb_cdc.h"
+	"isp.h"
+
+1742552717 source:g:\wch\552\552\picprog\isp.c
+	"delay.h"
+	"gpio.h"
+	"usb_cdc.h"
+	"isp.h"
+
+1742546591 g:\wch\552\552\picprog\isp.h
+
+1741804304 source:g:\wch\552\552\picprog\lib\delay.c
+	"delay.h"
+
+1741804304 source:g:\wch\552\552\picprog\lib\usb_cdc.c
+	"usb_cdc.h"
+
+1741804304 source:g:\wch\552\552\picprog\lib\usb_descr.c
+	"usb_descr.h"
+
+1741804304 source:g:\wch\552\552\picprog\lib\usb_handler.c
+	"usb_handler.h"
+
+1742500060 source:g:\wch\552\552\picprog\main.c
+	"system.h"
+	"delay.h"
+	"gpio.h"
+	"usb_cdc.h"
+	"isp.h"
+

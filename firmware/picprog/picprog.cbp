@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="picprog" />
+		<Option pch_mode="2" />
+		<Option compiler="sdcc" />
+		<Build>
+			<Target title="Release">
+				<Option output="bin/Release/picprog.ihx" prefix_auto="1" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="5" />
+				<Option compiler="sdcc" />
+				<Compiler>
+					<Add option="--opt-code-size" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-mmcs51" />
+			<Add option="--stack-auto" />
+			<Add option="--model-small" />
+			<Add option="-Iinc" />
+			<Add option="-DF_CPU=24000000" />
+		</Compiler>
+		<Linker>
+			<Add option="--xram-size 1024" />
+			<Add option="--iram-size 256" />
+			<Add option="--code-size 14336" />
+			<Add option="--out-fmt-ihx" />
+		</Linker>
+		<ExtraCommands>
+			<Add after='cmd /c &quot;packihx &lt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).ihx &gt;$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).hex&quot;' />
+		</ExtraCommands>
+		<Unit filename="inc/ch554.h" />
+		<Unit filename="inc/config.h" />
+		<Unit filename="inc/delay.h" />
+		<Unit filename="inc/gpio.h" />
+		<Unit filename="inc/system.h" />
+		<Unit filename="inc/uart.h" />
+		<Unit filename="inc/usb.h" />
+		<Unit filename="inc/usb_cdc.h" />
+		<Unit filename="inc/usb_descr.h" />
+		<Unit filename="inc/usb_handler.h" />
+		<Unit filename="isp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="isp.h" />
+		<Unit filename="lib/delay.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib/usb_cdc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib/usb_descr.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lib/usb_handler.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
